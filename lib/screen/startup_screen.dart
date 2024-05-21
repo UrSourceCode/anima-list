@@ -17,14 +17,14 @@ class _StartupScreenState extends State<StartupScreen> {
       screens: _buildScreens(),
       items: _navBarsItems(),
       confineInSafeArea: true,
-      backgroundColor: Colors.black26,
+      backgroundColor: Colors.red.shade900,
       handleAndroidBackButtonPress: true,
       resizeToAvoidBottomInset: true,
       stateManagement: true,
       hideNavigationBarWhenKeyboardShows: true,
       decoration: NavBarDecoration(
         borderRadius: BorderRadius.circular(10.0),
-        colorBehindNavBar: Colors.black,
+        colorBehindNavBar: Colors.white38,
       ),
       popAllScreensOnTapOfSelectedTab: true,
       popActionScreens: PopActionScreensType.all,
@@ -44,10 +44,9 @@ class _StartupScreenState extends State<StartupScreen> {
   List<Widget> _buildScreens() {
     return [
       const HomeScreen(),
-      // Screen1(),
-      // Screen2(),
-      // Screen3(),
-      // Screen4(),
+      const HomeScreen(),
+      const HomeScreen(),
+      const HomeScreen(),
     ];
   }
 
@@ -57,25 +56,25 @@ class _StartupScreenState extends State<StartupScreen> {
         icon: const Icon(Icons.home),
         title: ("Home"),
         activeColorPrimary: Colors.white,
-        inactiveColorPrimary: Colors.grey,
+        inactiveColorPrimary: Colors.grey.shade300,
       ),
       PersistentBottomNavBarItem(
-        icon: const Icon(Icons.search),
-        title: ("Search"),
+        icon: const Icon(Icons.forum),
+        title: ("Community"),
         activeColorPrimary: Colors.white,
-        inactiveColorPrimary: Colors.grey,
+        inactiveColorPrimary: Colors.grey.shade300,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.add),
         title: ("Add"),
         activeColorPrimary: Colors.white,
-        inactiveColorPrimary: Colors.grey,
+        inactiveColorPrimary: Colors.grey.shade300,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.account_circle),
         title: ("Profile"),
         activeColorPrimary: Colors.white,
-        inactiveColorPrimary: Colors.grey,
+        inactiveColorPrimary: Colors.grey.shade300,
       ),
     ];
   }
