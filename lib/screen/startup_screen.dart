@@ -1,4 +1,7 @@
+import 'package:anima_list/pages/community_screen.dart';
 import 'package:anima_list/pages/home_screen.dart';
+import 'package:anima_list/pages/profile_screen.dart';
+import 'package:anima_list/pages/watchlist_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
@@ -44,9 +47,9 @@ class _StartupScreenState extends State<StartupScreen> {
   List<Widget> _buildScreens() {
     return [
       const HomeScreen(),
-      const HomeScreen(),
-      const HomeScreen(),
-      const HomeScreen(),
+      const CommunityScreen(),
+      const WatchlistScreen(),
+      const ProfileScreen(),
     ];
   }
 

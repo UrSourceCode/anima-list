@@ -1,3 +1,4 @@
+import 'package:anima_list/pages/login_screen.dart';
 import 'package:anima_list/screen/startup_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: StartupScreen(),
+      home: LoginScreen(),
     );
   }
 }

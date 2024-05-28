@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class CommunityScreen extends StatefulWidget {
-  const CommunityScreen({super.key});
+class WatchlistScreen extends StatefulWidget {
+  const WatchlistScreen({super.key});
 
   @override
-  State<CommunityScreen> createState() => _CommunityScreenState();
+  State<WatchlistScreen> createState() => _WatchlistScreenState();
 }
 
-class _CommunityScreenState extends State<CommunityScreen> {
+class _WatchlistScreenState extends State<WatchlistScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +21,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                   // SizedBox(height: 60),
 
                   Text(
-                    'Community Page',
+                    'Watchlist Page',
                     style: TextStyle(
                       fontSize: 24,
                       color: Colors.red.shade900,
