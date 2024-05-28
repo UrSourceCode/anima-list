@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "542731828645",
+    "project_id": "anima-list",
+    "storage_bucket": "anima-list.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:542731828645:android:27fbcca2fb349254053c4c",
+        "android_client_info": {
+          "package_name": "com.example.anima_list"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2Q7lkU9bI-0PJHZRKlnWaZ6bpKWZWrbw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
