@@ -17,7 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black87,
+      backgroundColor: Colors.black,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
@@ -79,19 +79,26 @@ class _HomeScreenState extends State<HomeScreen> {
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3, // Three columns
-                            childAspectRatio: 0.6, // Adjusted for better layout
+                            crossAxisCount: 2, //  Three columns
+                            childAspectRatio: 0.67, // Adjusted for better layout
                             crossAxisSpacing: 8.0,
                             mainAxisSpacing: 8.0,
                           ),
                           itemCount: animeList.length,
                           itemBuilder: (context, index) {
                             var anime = animeList[index];
+                            var animeSeason = anime['animeSeason'] as Map<String, dynamic>;
+                            var data = anime.data() as Map<String, dynamic>?;
+                            String synopsis = data?.containsKey('synopsis') ?? false ? data!['synopsis'] : 'No synopsis provided';
+
                             return AnimeCard(
                               pictureUrl: anime['picture'],
                               title: anime['title'],
                               type: anime['type'],
                               status: anime['status'],
+                              season: animeSeason['season'],
+                              year: animeSeason['year'].toString(),
+                              synopsis: synopsis,
                             );
                           },
                         ),
