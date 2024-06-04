@@ -1,22 +1,27 @@
-import 'package:anima_list/pages/community_screen.dart';
-import 'package:anima_list/pages/home_screen.dart';
-import 'package:anima_list/pages/profile_screen.dart';
-import 'package:anima_list/pages/watchlist_screen.dart';
+import 'package:anima_list/screens/community_screen.dart';
+import 'package:anima_list/screens/home_screen.dart';
+import 'package:anima_list/screens/profile_screen.dart';
+import 'package:anima_list/screens/watchlist_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
+import '../services/navigation_wrapper.dart';
+
 class StartupScreen extends StatefulWidget {
-  const StartupScreen({super.key});
+  const StartupScreen({Key? key}) : super(key: key);
 
   @override
   State<StartupScreen> createState() => _StartupScreenState();
 }
 
 class _StartupScreenState extends State<StartupScreen> {
+  final PersistentTabController _controller = PersistentTabController();
+
   @override
   Widget build(BuildContext context) {
     return PersistentTabView(
       context,
+      controller: _controller,
       screens: _buildScreens(),
       items: _navBarsItems(),
       confineInSafeArea: true,
@@ -46,10 +51,10 @@ class _StartupScreenState extends State<StartupScreen> {
 
   List<Widget> _buildScreens() {
     return [
-      const HomeScreen(),
-      const CommunityScreen(),
-      const WatchlistScreen(),
-      const ProfileScreen(),
+      HomeScreenWrapper(refresh: refreshScreen, key: UniqueKey()),
+      CommunityScreenWrapper(refresh: refreshScreen, key: UniqueKey()),
+      WatchlistScreenWrapper(refresh: refreshScreen, key: UniqueKey()),
+      ProfileScreenWrapper(refresh: refreshScreen, key: UniqueKey()),
     ];
   }
 
@@ -68,8 +73,8 @@ class _StartupScreenState extends State<StartupScreen> {
         inactiveColorPrimary: Colors.grey.shade300,
       ),
       PersistentBottomNavBarItem(
-        icon: const Icon(Icons.add),
-        title: ("Add"),
+        icon: const Icon(Icons.library_books),
+        title: ("Watchlist"),
         activeColorPrimary: Colors.white,
         inactiveColorPrimary: Colors.grey.shade300,
       ),
@@ -80,5 +85,9 @@ class _StartupScreenState extends State<StartupScreen> {
         inactiveColorPrimary: Colors.grey.shade300,
       ),
     ];
+  }
+
+  void refreshScreen() {
+    setState(() {});
   }
 }

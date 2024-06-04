@@ -1,7 +1,7 @@
 // anime_card.dart
 import 'package:flutter/material.dart';
 
-import '../pages/anime_detail_screen.dart';
+import '../screens/anime_detail_screen.dart';
 
 class AnimeCard extends StatelessWidget {
   final String pictureUrl;
@@ -11,6 +11,10 @@ class AnimeCard extends StatelessWidget {
   final String season;
   final String year;
   final String synopsis;
+  final bool isOnWatchlist;
+  final String animeID;
+  final VoidCallback fetchWatchlist;
+
 
   const AnimeCard({
     required this.pictureUrl,
@@ -20,6 +24,9 @@ class AnimeCard extends StatelessWidget {
     required this.season,
     required this.year,
     required this.synopsis,
+    required this.isOnWatchlist,
+    required this.animeID,
+    required this.fetchWatchlist,
     Key? key,
   }) : super(key: key);
 
@@ -38,6 +45,9 @@ class AnimeCard extends StatelessWidget {
               season: season,
               year: year,
               synopsis: synopsis.isNotEmpty ? synopsis : 'No synopsis provided',
+              isOnWatchlist: isOnWatchlist,
+              animeID: animeID,
+              fetchWatchlist: fetchWatchlist,
             ),
           ),
         );
@@ -75,22 +85,34 @@ class AnimeCard extends StatelessWidget {
 
               const Spacer(),
 
-              const SizedBox(height: 8.0),
-              Text(
-                '$type - $status',
-                style: const TextStyle(
-                  color: Colors.white70,
-                  fontSize: 12.0,
-                ),
-              ),
-
-              const SizedBox(height: 8.0),
-              Text(
-                '$season $year',
-                style: const TextStyle(
-                  color: Colors.white70,
-                  fontSize: 12.0,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '$type - $status',
+                        style: const TextStyle(
+                          color: Colors.white70,
+                          fontSize: 12.0,
+                        ),
+                      ),
+                      const SizedBox(height: 8.0),
+                      Text(
+                        '$season $year',
+                        style: const TextStyle(
+                          color: Colors.white70,
+                          fontSize: 12.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                  isOnWatchlist
+                      ? const Icon(Icons.bookmark, color: Colors.red)
+                      : const Icon(Icons.bookmark_add, color: Colors.white12),
+                ],
               ),
             ],
           ),

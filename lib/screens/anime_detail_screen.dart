@@ -1,5 +1,9 @@
 // anime_detail_page.dart
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+
+import '../components/rating_dialog.dart';
+import '../enum/list_status_enum.dart';
 
 class AnimeDetailPage extends StatefulWidget {
   final String pictureUrl;
@@ -9,8 +13,11 @@ class AnimeDetailPage extends StatefulWidget {
   final String season;
   final String year;
   final String synopsis;
+  bool isOnWatchlist;
+  final String animeID;
+  final VoidCallback fetchWatchlist;
 
-  const AnimeDetailPage({
+  AnimeDetailPage({
     required this.pictureUrl,
     required this.title,
     required this.type,
@@ -18,6 +25,9 @@ class AnimeDetailPage extends StatefulWidget {
     required this.season,
     required this.year,
     required this.synopsis,
+    required this.isOnWatchlist,
+    required this.animeID,
+    required this.fetchWatchlist,
     Key? key,
   }) : super(key: key);
 
@@ -26,12 +36,47 @@ class AnimeDetailPage extends StatefulWidget {
 }
 
 class _AnimeDetailPageState extends State<AnimeDetailPage> {
-  bool showFullSynopsis = false;
+  final String myUserEmail = 'elsherviana@gmail.com';
 
+  bool showFullSynopsis = false;
+  bool get hasSynopsis => widget.synopsis != 'No synopsis provided';
+
+  void _addWatchlistToFirestore(int rating, ListStatus listStatus) async {
+    try {
+      final userQuerySnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .where('email', isEqualTo: myUserEmail)
+          .get();
+
+      if (userQuerySnapshot.docs.isNotEmpty) {
+        final userDoc = userQuerySnapshot.docs.first;
+        final userRef = FirebaseFirestore.instance.collection('users').doc(userDoc.id);
+
+        List<Map<String, dynamic>> watchlist = List<Map<String, dynamic>>.from(userDoc['watchlist'] ?? []);
+
+        watchlist.add({
+          'animeID': widget.animeID,
+          'rating': rating,
+          'listStatus': listStatus.toFirestoreString(),
+        });
+
+        await userRef.update({'watchlist': watchlist});
+
+        setState(() {
+          widget.isOnWatchlist = true;
+        });
+
+        widget.fetchWatchlist();
+      } else {
+        print('User not found with email $myUserEmail');
+      }
+    } catch (error) {
+      print('Error adding watchlist: $error');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    bool hasSynopsis = widget.synopsis.isNotEmpty && widget.synopsis != 'No synopsis provided';
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -90,6 +135,24 @@ class _AnimeDetailPageState extends State<AnimeDetailPage> {
                             fontSize: 18.0,
                             color: Colors.grey,
                           ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => RatingDialog(
+                                pictureUrl: widget.pictureUrl,
+                                title: widget.title,
+                                status: widget.status,
+                                onSave: (int newRating, ListStatus newListStatus) {
+                                  _addWatchlistToFirestore(newRating, newListStatus);
+                                },
+                              ),
+                            );
+                          },
+                          child: widget.isOnWatchlist
+                              ? const Icon(Icons.check_circle, color: Colors.green)
+                              : const Icon(Icons.add_circle_outline, color: Colors.red),
                         ),
                       ],
                     ),
