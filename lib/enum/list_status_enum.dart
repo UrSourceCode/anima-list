@@ -9,15 +9,15 @@ enum ListStatus {
 extension ListStatusExtension on ListStatus {
   static ListStatus fromString(String status) {
     switch (status) {
-      case 'Watching':
+      case 'watching':
         return ListStatus.watching;
-      case 'Completed':
+      case 'completed':
         return ListStatus.completed;
-      case 'On-Hold':
+      case 'onHold':
         return ListStatus.onHold;
-      case 'Plan to Watch':
+      case 'planToWatch':
         return ListStatus.planToWatch;
-      case 'Dropped':
+      case 'dropped':
         return ListStatus.dropped;
       default:
         throw Exception('Unknown status: $status');
@@ -39,5 +39,9 @@ extension ListStatusExtension on ListStatus {
       default:
         return '';
     }
+  }
+
+  String toFirestoreString() {
+    return toString().split('.').last;
   }
 }
