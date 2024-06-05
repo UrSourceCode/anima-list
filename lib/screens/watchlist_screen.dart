@@ -182,7 +182,13 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                   child: _isLoading
                       ? const Center(child: CircularProgressIndicator())
                       : _watchlist.isEmpty
-                      ? const Center(child: Text('Watchlist is empty'))
+                      ? const Center(child: Text(
+                      'Watchlist is empty',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
+                  ))
                       : ListView.builder(
                     itemCount: _watchlist.length,
                     itemBuilder: (context, index) {

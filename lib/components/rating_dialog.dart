@@ -1,13 +1,23 @@
-// rating_dialog.dart
-
 import 'package:flutter/material.dart';
 import 'package:anima_list/enum/list_status_enum.dart';
 
 class RatingDialog extends StatefulWidget {
-  final Map<String, dynamic> item;
+  final String pictureUrl;
+  final String title;
+  final String status;
+  final int? initialRating;
+  final ListStatus? initialListStatus;
   final Function(int newRating, ListStatus newListStatus) onSave;
 
-  const RatingDialog({super.key, required this.item, required this.onSave});
+  const RatingDialog({
+    Key? key,
+    required this.pictureUrl,
+    required this.title,
+    required this.status,
+    this.initialRating,
+    this.initialListStatus,
+    required this.onSave,
+  }) : super(key: key);
 
   @override
   _RatingDialogState createState() => _RatingDialogState();
@@ -15,19 +25,17 @@ class RatingDialog extends StatefulWidget {
 
 class _RatingDialogState extends State<RatingDialog> {
   late int? rating;
-  late ListStatus listStatus;
+  late ListStatus? listStatus;
 
   @override
   void initState() {
     super.initState();
-    rating = widget.item['rating'];
-    listStatus = widget.item['listStatus'];
+    rating = widget.initialRating ?? 1;
+    listStatus = widget.initialListStatus;
   }
 
   @override
   Widget build(BuildContext context) {
-    String status = widget.item['status'];
-
     return AlertDialog(
       backgroundColor: Colors.white,
       content: Padding(
@@ -37,9 +45,9 @@ class _RatingDialogState extends State<RatingDialog> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(
-              child: widget.item['pictureUrl'] != null
+              child: widget.pictureUrl != null
                   ? Image.network(
-                widget.item['pictureUrl'],
+                widget.pictureUrl,
                 width: 100,
                 fit: BoxFit.cover,
               )
@@ -48,7 +56,7 @@ class _RatingDialogState extends State<RatingDialog> {
             const SizedBox(height: 10),
             Center(
               child: Text(
-                '${widget.item['title']}',
+                widget.title,
                 style: const TextStyle(
                   color: Colors.red,
                   fontWeight: FontWeight.bold,
@@ -58,16 +66,6 @@ class _RatingDialogState extends State<RatingDialog> {
               ),
             ),
             const SizedBox(height: 10),
-            if (status == 'UPCOMING' && rating == null)
-              Text(
-                'Status: ${listStatus.toReadableString()}',
-                style: const TextStyle(
-                  color: Colors.grey,
-                  fontSize: 14,
-                ),
-                textAlign: TextAlign.left,
-              ),
-            if (status != 'UPCOMING' && rating != null)
             const Text(
               'Status:',
               style: TextStyle(
@@ -76,13 +74,12 @@ class _RatingDialogState extends State<RatingDialog> {
               ),
               textAlign: TextAlign.left,
             ),
-
             const SizedBox(height: 10),
-            if (status != 'UPCOMING' && rating != null)
             DropdownButtonFormField<ListStatus>(
               value: listStatus,
               decoration: InputDecoration(
-                contentPadding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2),
+                contentPadding:
+                const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2),
                 border: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.red.shade900),
                   borderRadius: BorderRadius.circular(5.0),
@@ -98,7 +95,7 @@ class _RatingDialogState extends State<RatingDialog> {
               }).toList(),
               onChanged: (ListStatus? newValue) {
                 setState(() {
-                  listStatus = newValue!;
+                  listStatus = newValue;
                 });
               },
               style: const TextStyle(
@@ -107,93 +104,84 @@ class _RatingDialogState extends State<RatingDialog> {
               dropdownColor: Colors.white,
             ),
             const SizedBox(height: 10),
-            if (status == 'UPCOMING' || rating == null)
-              const Text(
-                'Rating: N/A',
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 14,
-                ),
-              )
-            else
-              const Text(
-                'Rating:',
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 14,
-                ),
+            const Text(
+              'Rating:',
+              style: TextStyle(
+                color: Colors.grey,
+                fontSize: 14,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.remove),
-                    onPressed: () {
-                      if (rating! > 1) {
-                        setState(() {
-                          rating = rating! - 1;
-                        });
-                      }
-                    },
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
-                    margin: const EdgeInsets.symmetric(horizontal: 10.0),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.red),
-                      borderRadius: BorderRadius.circular(5.0),
-                      color: Colors.white,
-                    ),
-                    child: Text(
-                      '$rating',
-                      style: const TextStyle(
-                        color: Colors.red,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.add),
-                    onPressed: () {
-                      if (rating! < 10) {
-                        setState(() {
-                          rating = rating! + 1;
-                        });
-                      }
-                    },
-                  ),
-                ],
-              ),
-            const SizedBox(height: 10),
-            if (status != 'UPCOMING' && rating != null)
-              ElevatedButton(
-                onPressed: () {
-                  if (status != 'UPCOMING' && rating != null) {
-                    widget.onSave(rating!, listStatus);
-                    Navigator.of(context).pop();
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red.shade900,
-                  padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
-                  ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.remove),
+                  onPressed: () {
+                    if (rating! > 1) {
+                      setState(() {
+                        rating = rating! - 1;
+                      });
+                    }
+                  },
                 ),
-                child: Container(
-                  width: double.infinity,
-                  alignment: Alignment.center,
-                  child: const Text(
-                    'Save to Watchlist',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
+                Container(
+                  padding:
+                  const EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
+                  margin: const EdgeInsets.symmetric(horizontal: 10.0),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.red),
+                    borderRadius: BorderRadius.circular(5.0),
+                    color: Colors.white,
+                  ),
+                  child: Text(
+                    '$rating',
+                    style: const TextStyle(
+                      color: Colors.red,
                       fontWeight: FontWeight.bold,
+                      fontSize: 16,
                     ),
                   ),
                 ),
+                IconButton(
+                  icon: const Icon(Icons.add),
+                  onPressed: () {
+                    if (rating! < 10) {
+                      setState(() {
+                        rating = rating! + 1;
+                      });
+                    }
+                  },
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () {
+                if (listStatus != null && rating != null) {
+                  widget.onSave(rating!, listStatus!);
+                  Navigator.of(context).pop();
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red.shade900,
+                padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
               ),
+              child: Container(
+                width: double.infinity,
+                alignment: Alignment.center,
+                child: const Text(
+                  'Update Watchlist',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
