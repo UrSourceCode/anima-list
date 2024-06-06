@@ -1,5 +1,6 @@
-import 'package:anima_list/screens/auth/after_login_screen.dart';
+import 'package:anima_list/screens/auth/home_screen.dart';
 import 'package:anima_list/screens/auth/login_or_register_screen.dart';
+import 'package:anima_list/screens/startup_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +18,7 @@ class AuthScreen extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           } else if (snapshot.hasData) {
-            return AfterLoginScreen();
+            return const StartupScreen();
           } else if (snapshot.hasError) {
             return const Center(
               child: Text('Something went wrong!'),

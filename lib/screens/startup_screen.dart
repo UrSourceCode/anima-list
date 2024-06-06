@@ -1,7 +1,8 @@
 import 'package:anima_list/screens/community_screen.dart';
-import 'package:anima_list/screens/home_screen.dart';
+import 'package:anima_list/screens/old_home_screen.dart';
 import 'package:anima_list/screens/profile_screen.dart';
-import 'package:anima_list/screens/watchlist_screen.dart';
+import 'package:anima_list/screens/old_watchlist_screen.dart';
+import 'package:anima_list/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
@@ -25,7 +26,7 @@ class _StartupScreenState extends State<StartupScreen> {
       screens: _buildScreens(),
       items: _navBarsItems(),
       confineInSafeArea: true,
-      backgroundColor: Colors.red.shade900,
+      backgroundColor: AppColors.lightPrimaryColor,
       handleAndroidBackButtonPress: true,
       resizeToAvoidBottomInset: true,
       stateManagement: true,
@@ -51,9 +52,9 @@ class _StartupScreenState extends State<StartupScreen> {
 
   List<Widget> _buildScreens() {
     return [
+      WatchlistScreenWrapper(refresh: refreshScreen, key: UniqueKey()),
       HomeScreenWrapper(refresh: refreshScreen, key: UniqueKey()),
       CommunityScreenWrapper(refresh: refreshScreen, key: UniqueKey()),
-      WatchlistScreenWrapper(refresh: refreshScreen, key: UniqueKey()),
       ProfileScreenWrapper(refresh: refreshScreen, key: UniqueKey()),
     ];
   }

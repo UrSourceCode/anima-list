@@ -17,7 +17,6 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  final nameController = TextEditingController();
   final emailController = TextEditingController();
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
@@ -45,7 +44,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
         if (user != null) {
           Users newUser = Users(
             email: emailController.text,
-            name: nameController.text,
             username: usernameController.text,
             createdAt: Timestamp.now(),
             updatedAt: Timestamp.now(),
@@ -101,14 +99,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
 
                   const SizedBox(height: 20),
-
-                  MyTextField(
-                      controller: nameController,
-                      hintText: 'Name',
-                      obscureText: false
-                  ),
-
-                  const SizedBox(height: 12),
 
                   MyTextField(
                       controller: usernameController,

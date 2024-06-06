@@ -1,7 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:anima_list/screens/home_screen.dart';
-import 'package:anima_list/screens/community_screen.dart';
+import 'package:anima_list/screens/auth/home_screen.dart';
 import 'package:anima_list/screens/watchlist_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:anima_list/screens/old_home_screen.dart';
+import 'package:anima_list/screens/community_screen.dart';
+import 'package:anima_list/screens/old_watchlist_screen.dart';
 import 'package:anima_list/screens/profile_screen.dart';
 
 class HomeScreenWrapper extends StatelessWidget {

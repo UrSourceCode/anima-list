@@ -1,9 +1,9 @@
 import 'package:anima_list/screens/auth/auth_screen.dart';
 import 'package:anima_list/screens/auth/login_or_register_screen.dart';
 import 'package:anima_list/screens/auth/register_screen.dart';
-import 'package:anima_list/screens/home_screen.dart';
+import 'package:anima_list/screens/old_home_screen.dart';
 import 'package:anima_list/screens/auth/login_screen.dart';
-import 'package:anima_list/screens/watchlist_screen.dart';
+import 'package:anima_list/screens/old_watchlist_screen.dart';
 import 'package:anima_list/screens/startup_screen.dart';
 import 'package:anima_list/theme/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
