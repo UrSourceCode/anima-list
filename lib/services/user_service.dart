@@ -30,7 +30,6 @@ class UserService {
     try {
       await _db.collection('users').doc(uid).set({
         'email': user.email,
-        'name': user.name,
         'username': user.username,
         'createdAt': user.createdAt,
         'updatedAt': user.updatedAt,
