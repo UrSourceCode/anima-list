@@ -8,6 +8,7 @@ class AppTheme {
       primaryColor: AppColors.lightPrimaryColor,
       scaffoldBackgroundColor: AppColors.lightBackgroundColor,
       cardColor: AppColors.lightSurfaceBackgroundColor,
+      //divider: AppColors.lightDividerBackgroundColor,
 
       colorScheme: const ColorScheme.light(
         primary: AppColors.lightPrimaryColor,
@@ -29,6 +30,7 @@ class AppTheme {
         titleLarge: AppTextStyles.titleLarge,
         titleMedium: AppTextStyles.titleMedium,
         bodyMedium: AppTextStyles.bodyMedium,
+        bodySmall: AppTextStyles.bodySmall,
       ),
 
       fontFamily: 'Inter',

@@ -38,4 +38,11 @@ class AppTextStyles {
     fontWeight: FontWeight.normal,
     color: AppColors.onLightBackgroundColor
   );
+
+  static const TextStyle bodySmall = TextStyle(
+    fontFamily: 'Inter',
+    fontSize: 10,
+    fontWeight: FontWeight.normal,
+    color: AppColors.onLightBackgroundColor
+  );
 }
