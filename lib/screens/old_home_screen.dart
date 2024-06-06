@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../components/anime_card.dart';
+import '../components/anime_cards.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class OldHomeScreen extends StatefulWidget {
+  const OldHomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<OldHomeScreen> createState() => _OldHomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _OldHomeScreenState extends State<OldHomeScreen> {
   final CollectionReference animeCollection =
   FirebaseFirestore.instance.collection('anime');
 
@@ -126,7 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                   //print(data);
 
-                                  return AnimeCard(
+                                  return AnimeCards(
                                     pictureUrl: anime['picture'],
                                     title: anime['title'],
                                     type: anime['type'],
