@@ -3,14 +3,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Users {
   final String email;
-  final String name;
   final String username;
   final Timestamp createdAt;
   final Timestamp updatedAt;
 
   Users({
     required this.email,
-    required this.name,
     required this.username,
     required this.createdAt,
     required this.updatedAt,
@@ -19,7 +17,6 @@ class Users {
   factory Users.fromDocument(Map<String, dynamic> doc) {
     return Users(
       email: doc['email'],
-      name: doc['name'],
       username: doc['username'],
       createdAt: doc['createdAt'],
       updatedAt: doc['updatedAt'],
