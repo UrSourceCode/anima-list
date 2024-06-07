@@ -63,8 +63,8 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                       style: AppTextStyles.displayLarge,
                     ),
                     const SizedBox(height: 20),
-                    FutureBuilder<QuerySnapshot>(
-                      future: watchlistService.getUserWatchlist(user.uid),
+                    StreamBuilder<QuerySnapshot>(
+                      stream: watchlistService.getUserWatchlist(user.uid),
                       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                         if (snapshot.connectionState == ConnectionState.waiting) {
                           return const Center(child: CircularProgressIndicator());
@@ -80,8 +80,8 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                     ),
 
                     const SizedBox(height: 8),
-                    FutureBuilder<List<Map<String, dynamic>>>(
-                      future: watchlistService.getAnimeFromWatchlistData(user.uid),
+                    StreamBuilder<List<Map<String, dynamic>>>(
+                      stream: watchlistService.getAnimeFromWatchlistStream(user.uid),
                       builder: (BuildContext context, AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
                         if (snapshot.connectionState == ConnectionState.waiting) {
                           return const Center(child: CircularProgressIndicator());
@@ -100,6 +100,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                             return WatchlistCard(
                               watchlistItem: WatchlistItem.fromDocument(watchlistAndAnimeData[index]['watchlistItem'] as Map<String, dynamic>),
                               anime: Anime.fromDocument(watchlistAndAnimeData[index]['animeData'] as Map<String, dynamic>),
+                              documentId: watchlistAndAnimeData[index]['documentId'] as String,
                             );
                           },
                         );

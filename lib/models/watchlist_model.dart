@@ -20,21 +20,22 @@ class WatchlistItem {
 
   factory WatchlistItem.fromDocument(Map<String, dynamic> doc) {
     return WatchlistItem(
-      animeId: doc['animeId'],
-      rating: doc['rating'],
-      listStatus: doc['listStatus'],
-      createdAt: doc['createdAt'],
-      updatedAt: doc['updatedAt'],
-      watchedEpisodes: doc['watchedEpisodes'],
+      animeId: doc['animeId'] ?? '',
+      listStatus: doc['listStatus'] ?? '',
+      rating: doc['rating'] ?? 0,
+      watchedEpisodes: doc['watchedEpisodes'] ?? 0,
+      updatedAt: doc['updatedAt'] ?? Timestamp.now(),
+      createdAt: doc['createdAt'] ?? Timestamp.now(),
     );
   }
 
   Map<String, dynamic> toDocument() {
     return {
       'animeId': animeId,
-      'rating': rating,
       'listStatus': listStatus,
+      'rating': rating,
       'watchedEpisodes': watchedEpisodes,
+      'updatedAt': updatedAt,
     };
   }
 }
