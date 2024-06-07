@@ -77,8 +77,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
 
-              FutureBuilder<QuerySnapshot>(
-                future: animeService.getAllAnime(),
+              StreamBuilder<QuerySnapshot>(
+                stream: animeService.getAllAnime(),
                 builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasError) {
                     return Center(child: Text('Error: ${snapshot.error}'));

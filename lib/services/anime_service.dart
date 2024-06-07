@@ -7,8 +7,8 @@ class AnimeService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   final CollectionReference animeCollection = FirebaseFirestore.instance.collection('anime');
 
-  Future<QuerySnapshot> getAllAnime() async {
-    return animeCollection.get();
+  Stream<QuerySnapshot> getAllAnime() {
+    return animeCollection.orderBy('updatedAt', descending: true).snapshots();
   }
 
   Future<DocumentSnapshot> getAnimeById(String animeID) async {
