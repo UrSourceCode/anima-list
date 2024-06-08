@@ -1,5 +1,4 @@
 import 'package:anima_list/screens/community_screen.dart';
-import 'package:anima_list/screens/old_home_screen.dart';
 import 'package:anima_list/screens/profile_screen.dart';
 import 'package:anima_list/screens/old_watchlist_screen.dart';
 import 'package:anima_list/theme/colors.dart';
@@ -52,8 +51,8 @@ class _StartupScreenState extends State<StartupScreen> {
 
   List<Widget> _buildScreens() {
     return [
-      WatchlistScreenWrapper(refresh: refreshScreen, key: UniqueKey()),
       HomeScreenWrapper(refresh: refreshScreen, key: UniqueKey()),
+      WatchlistScreenWrapper(refresh: refreshScreen, key: UniqueKey()),
       CommunityScreenWrapper(refresh: refreshScreen, key: UniqueKey()),
       ProfileScreenWrapper(refresh: refreshScreen, key: UniqueKey()),
     ];
