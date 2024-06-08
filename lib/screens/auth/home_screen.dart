@@ -25,7 +25,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Users? loggedInUser;
 
   final AnimeService animeService = AnimeService();
-
   final ThreadService threadService = ThreadService();
 
   @override
@@ -68,7 +67,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    //const SizedBox(height: 60),
                     Text(
                       'Home Page',
                       style: AppTextStyles.displayLarge,
@@ -99,11 +97,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         scrollDirection: Axis.horizontal,
                         itemCount: docs.length,
                         itemBuilder: (BuildContext context, int index) {
+                          final DocumentSnapshot doc = docs[index];
+                          final Anime anime = Anime.fromDocument(doc.data() as Map<String, dynamic>);
                           return Row(
                             children: [
-                                AnimeCard(
-                                  anime: Anime.fromDocument(docs[index].data() as Map<String, dynamic>),
-                                ),
+                              AnimeCard(
+                                anime: anime,
+                                animeId: doc.id,
+                              ),
                               const SizedBox(width: 16),
                             ],
                           );
@@ -125,7 +126,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
 
-              // Fetch threads
               FutureBuilder<QuerySnapshot>(
                 future: threadService.getAllThreads(),
                 builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
