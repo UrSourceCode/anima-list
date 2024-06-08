@@ -4,14 +4,14 @@ import 'package:anima_list/enum/list_status_enum.dart';
 
 import '../components/rating_dialog.dart';
 
-class WatchlistScreen extends StatefulWidget {
-  const WatchlistScreen({Key? key}) : super(key: key);
+class OldWatchlistScreen extends StatefulWidget {
+  const OldWatchlistScreen({Key? key}) : super(key: key);
 
   @override
-  State<WatchlistScreen> createState() => _WatchlistScreenState();
+  State<OldWatchlistScreen> createState() => _OldWatchlistScreenState();
 }
 
-class _WatchlistScreenState extends State<WatchlistScreen> {
+class _OldWatchlistScreenState extends State<OldWatchlistScreen> {
   final String myUserEmail = "elsherviana@gmail.com";
   List<Map<String, dynamic>> _watchlist = [];
   bool _isLoading = true;

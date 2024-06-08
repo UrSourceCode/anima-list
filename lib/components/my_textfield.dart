@@ -1,3 +1,4 @@
+import 'package:anima_list/theme/colors.dart';
 import 'package:flutter/material.dart';
 
 class MyTextField extends StatelessWidget {
@@ -13,26 +14,21 @@ class MyTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25.0),
-      child: TextField(
-        controller: controller,
-        obscureText: obscureText,
-        decoration: InputDecoration(
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.red.shade600),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.red.shade900),
-            ),
-            fillColor: Colors.black54,
-            filled: true,
-            hintText: hintText,
-            hintStyle: TextStyle(color: Colors.grey.shade800)
-        ),
+    return TextField(
+      controller: controller,
+      obscureText: obscureText,
+      decoration: InputDecoration(
+          enabledBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color: AppColors.lightPrimaryColor),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color: AppColors.lightPrimaryColor, width: 2),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          filled: true,
+          hintText: hintText,
+          hintStyle: const TextStyle(color: AppColors.lightPrimaryColor)
       ),
     );
   }

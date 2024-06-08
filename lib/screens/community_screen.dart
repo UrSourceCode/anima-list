@@ -1,36 +1,35 @@
 import 'package:flutter/material.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+class CommunityScreen extends StatefulWidget {
+  const CommunityScreen({super.key});
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  State<CommunityScreen> createState() => _CommunityScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _CommunityScreenState extends State<CommunityScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black87,
+      backgroundColor: Colors.black,
       body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
-                children:[
+                children: [
                   // SizedBox(height: 60),
+
                   Text(
-                    'Profile Page',
+                    'Community Page',
                     style: TextStyle(
                       fontSize: 24,
                       color: Colors.red.shade900,
                       fontWeight: FontWeight.bold,
                     ),
                     textAlign: TextAlign.left,
-                  ),
-
-                  // SizedBox(height: 20),
-                ],
+                  )
+                ]
             ),
           )
       )

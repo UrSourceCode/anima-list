@@ -1,3 +1,4 @@
+import 'package:anima_list/theme/colors.dart';
 import 'package:flutter/material.dart';
 
 class MyButton extends StatelessWidget {
@@ -13,9 +14,8 @@ class MyButton extends StatelessWidget {
       onTap: onTap,
       child: Container(
           padding: const EdgeInsets.all(20.0),
-          margin: const EdgeInsets.symmetric(horizontal: 25.0),
           decoration: BoxDecoration(
-              color: Colors.red.shade900,
+              color: AppColors.lightPrimaryColor,
               borderRadius: BorderRadius.circular(5)
           ),
           child: Center(

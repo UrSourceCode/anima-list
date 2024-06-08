@@ -1,34 +1,15 @@
-// anime_card.dart
+import 'package:anima_list/screens/anime/anime_detail_screen.dart';
+import 'package:anima_list/theme/colors.dart';
+import 'package:anima_list/theme/text_styles.dart';
 import 'package:flutter/material.dart';
 
-import '../screens/anime_detail_screen.dart';
+import 'package:anima_list/models/anime_model.dart';
 
 class AnimeCard extends StatelessWidget {
-  final String pictureUrl;
-  final String title;
-  final String type;
-  final String status;
-  final String season;
-  final String year;
-  final String synopsis;
-  final bool isOnWatchlist;
-  final String animeID;
-  final VoidCallback fetchWatchlist;
+  final Anime anime;
+  final String animeId;
 
-
-  const AnimeCard({
-    required this.pictureUrl,
-    required this.title,
-    required this.type,
-    required this.status,
-    required this.season,
-    required this.year,
-    required this.synopsis,
-    required this.isOnWatchlist,
-    required this.animeID,
-    required this.fetchWatchlist,
-    Key? key,
-  }) : super(key: key);
+  const AnimeCard({super.key, required this.anime, required this.animeId});
 
   @override
   Widget build(BuildContext context) {
@@ -37,82 +18,65 @@ class AnimeCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => AnimeDetailPage(
-              pictureUrl: pictureUrl,
-              title: title,
-              type: type,
-              status: status,
-              season: season,
-              year: year,
-              synopsis: synopsis.isNotEmpty ? synopsis : 'No synopsis provided',
-              isOnWatchlist: isOnWatchlist,
-              animeID: animeID,
-              fetchWatchlist: fetchWatchlist,
-            ),
+            builder: (context) => AnimeDetailScreen(animeId: animeId),
           ),
         );
       },
-      child: Card(
-        color: Colors.white10,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16),
+      child: SizedBox(
+        width: 130,
+        height: 280,
+        child: Container(
+          decoration: BoxDecoration(
+            color: AppColors.lightSurfaceBackgroundColor,
+            borderRadius: BorderRadius.circular(4),
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ClipRRect(
-                borderRadius: BorderRadius.circular(8.0),
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(4),
+                  topRight: Radius.circular(4),
+                ),
                 child: Image.network(
-                  pictureUrl,
-                  height: 140.0,
-                  width: double.infinity,
+                  anime.pictureUrl,
                   fit: BoxFit.cover,
+                  height: 160,
+                  width: 130,
                 ),
               ),
-              const SizedBox(height: 8.0),
-              Text(
-                title,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.bold,
-                ),
-                overflow: TextOverflow.ellipsis,
-                maxLines: 2,
-              ),
-
-              const Spacer(),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(
+              const SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: SizedBox(
+                  height: 75,
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '$type - $status',
-                        style: const TextStyle(
-                          color: Colors.white70,
-                          fontSize: 12.0,
-                        ),
+                        anime.title,
+                        style: AppTextStyles.titleMedium,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
                       ),
-                      const SizedBox(height: 8.0),
+                      const Spacer(),
                       Text(
-                        '$season $year',
-                        style: const TextStyle(
-                          color: Colors.white70,
-                          fontSize: 12.0,
+                        '${anime.type} - ${anime.status}',
+                        style: AppTextStyles.bodyMedium.copyWith(
+                            color: AppColors.onLightSurfaceNonActive
                         ),
                       ),
+                      const SizedBox(height: 4),
+                      Text(
+                        '${anime.season} - ${anime.year}',
+                        style: AppTextStyles.bodyMedium.copyWith(
+                            color: AppColors.onLightSurfaceNonActive
+                        ),
+                      ),
+                      const SizedBox(height: 8),
                     ],
                   ),
-                  isOnWatchlist
-                      ? const Icon(Icons.bookmark, color: Colors.red)
-                      : const Icon(Icons.bookmark_add, color: Colors.white12),
-                ],
+                ),
               ),
             ],
           ),
