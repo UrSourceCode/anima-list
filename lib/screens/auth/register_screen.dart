@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:anima_list/components/my_button.dart';
-import 'package:anima_list/components/my_textfield.dart';
+import 'package:anima_list/components/misc/my_button.dart';
+import 'package:anima_list/components/misc/my_textfield.dart';
 import 'package:anima_list/theme/colors.dart';
 import 'package:anima_list/theme/text_styles.dart';
 import 'package:anima_list/services/user_service.dart';

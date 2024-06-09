@@ -1,4 +1,4 @@
-import 'package:anima_list/components/watchlist_card.dart';
+import 'package:anima_list/components/watchlist/watchlist_card.dart';
 import 'package:anima_list/models/anime_model.dart';
 import 'package:anima_list/models/user_model.dart';
 import 'package:anima_list/models/watchlist_model.dart';
@@ -75,6 +75,7 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                         }
 
                         final List<DocumentSnapshot> docs = snapshot.data!.docs;
+                        print(docs);
                         return Text('Number of items in watchlist: ${docs.length}');
                       },
                     ),

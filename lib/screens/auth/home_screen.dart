@@ -1,11 +1,14 @@
-import 'package:anima_list/components/anime_card.dart';
-import 'package:anima_list/components/discussion_overview.dart';
+import 'dart:async';
+
+import 'package:anima_list/components/anime/anime_card.dart';
+import 'package:anima_list/components/discussion/discussion_overview.dart';
 import 'package:anima_list/models/anime_model.dart';
 import 'package:anima_list/models/thread_model.dart';
 import 'package:anima_list/models/user_model.dart';
 import 'package:anima_list/services/anime_service.dart';
 import 'package:anima_list/services/thread_service.dart';
 import 'package:anima_list/services/user_service.dart';
+import 'package:anima_list/services/watchlist_service.dart';
 import 'package:anima_list/theme/colors.dart';
 import 'package:anima_list/theme/text_styles.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -13,7 +16,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({
+    super.key,
+  });
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -23,9 +28,11 @@ class _HomeScreenState extends State<HomeScreen> {
   final user = FirebaseAuth.instance.currentUser!;
   final UserService userService = UserService();
   Users? loggedInUser;
+  late final List<String> animeIds;
 
   final AnimeService animeService = AnimeService();
   final ThreadService threadService = ThreadService();
+  final WatchlistService watchlistService = WatchlistService();
 
   @override
   void initState() {
@@ -43,6 +50,17 @@ class _HomeScreenState extends State<HomeScreen> {
       Users userDetail = Users.fromDocument(doc.data() as Map<String, dynamic>);
       setState(() {
         loggedInUser = userDetail;
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  void fetchAnimeIds() async {
+    try {
+      QuerySnapshot snapshot = await animeService.getAllAnime().first;
+      setState(() {
+        animeIds = snapshot.docs.map((doc) => doc.id).toList();
       });
     } catch (e) {
       print(e);
@@ -87,43 +105,52 @@ class _HomeScreenState extends State<HomeScreen> {
                   }
 
                   final List<DocumentSnapshot> docs = snapshot.data!.docs;
+                  final List<String> animeIds = docs.map((doc) => doc.id).toList();
 
-                  return Container(
-                    color: AppColors.lightDividerBackgroundColor,
-                    height: 280,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16),
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: docs.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          final DocumentSnapshot doc = docs[index];
-                          final Anime anime = Anime.fromDocument(doc.data() as Map<String, dynamic>);
-                          return Row(
-                            children: [
-                              AnimeCard(
-                                anime: anime,
-                                animeId: doc.id,
-                              ),
-                              const SizedBox(width: 16),
-                            ],
-                          );
-                        },
-                      ),
-                    ),
+                  return StreamBuilder<Map<String, bool>>(
+                    stream: watchlistService.getUserWatchlistStatus(user.uid, animeIds),
+                    builder: (BuildContext context, AsyncSnapshot<Map<String, bool>> watchlistSnapshot) {
+                      if (watchlistSnapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                      }
+
+                      if (watchlistSnapshot.hasError) {
+                      return Center(child: Text('Error: ${watchlistSnapshot.error}'));
+                      }
+
+                      final watchlistStatus = watchlistSnapshot.data ?? {};
+                      print(watchlistStatus);
+
+                      return Container(
+                        color: AppColors.lightDividerBackgroundColor,
+                        height: 280,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16),
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: docs.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              final DocumentSnapshot doc = docs[index];
+                              final Anime anime = Anime.fromDocument(doc.data() as Map<String, dynamic>);
+                              final bool isOnWatchlist = watchlistStatus[doc.id] ?? false;
+
+                              return Row(
+                                children: [
+                                  AnimeCard(
+                                    anime: anime,
+                                    animeId: doc.id,
+                                    isOnWatchlist: isOnWatchlist,
+                                  ),
+                                  const SizedBox(width: 16),
+                                ],
+                              );
+                            },
+                          ),
+                        ),
+                      );
+                    },
                   );
                 },
-              ),
-
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 24),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('This is a text'),
-                  ],
-                ),
               ),
 
               FutureBuilder<QuerySnapshot>(
