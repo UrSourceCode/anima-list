@@ -1,3 +1,4 @@
+import 'package:anima_list/screens/anime/anime_detail_screen.dart';
 import 'package:anima_list/screens/auth/auth_screen.dart';
 import 'package:anima_list/theme/theme.dart';
 import 'package:firebase_core/firebase_core.dart';

@@ -157,32 +157,34 @@ class _AnimeDetailScreenState extends State<AnimeDetailScreen> {
                     ),
                   ),
                   const SizedBox(width: 16, height: 16),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 16),
-                      Text(
-                          anime!.title,
-                          style: AppTextStyles.displayMedium.copyWith(
-                        fontSize: 20,
-                      ),
-                          softWrap: true,
-                          maxLines: 3
-                      ),
-                      const SizedBox(height: 8),
-                      Text('${anime!.type} - ${anime!.status}', style: AppTextStyles.bodyMedium.copyWith(
-                        color: AppColors.onLightBackgroundColor,
-                      )),
-                      const SizedBox(height: 4),
-                      Text('${anime!.season} - ${anime!.year}', style: AppTextStyles.bodyMedium.copyWith(
-                        color: AppColors.onLightBackgroundColor,
-                      )),
-                      const SizedBox(height: 4),
-                      Text('Episodes: ${anime!.episodes}', style: AppTextStyles.bodyMedium.copyWith(
-                        color: AppColors.onLightBackgroundColor,
-                      )),
-                    ],
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 16),
+                        Text(
+                            anime!.title,
+                            style: AppTextStyles.displayMedium.copyWith(
+                          fontSize: 20,
+                        ),
+                            softWrap: true,
+                            maxLines: 3
+                        ),
+                        const SizedBox(height: 8),
+                        Text('${anime!.type} - ${anime!.status}', style: AppTextStyles.bodyMedium.copyWith(
+                          color: AppColors.onLightBackgroundColor,
+                        )),
+                        const SizedBox(height: 4),
+                        Text('${anime!.season} - ${anime!.year}', style: AppTextStyles.bodyMedium.copyWith(
+                          color: AppColors.onLightBackgroundColor,
+                        )),
+                        const SizedBox(height: 4),
+                        Text('Episodes: ${anime!.episodes}', style: AppTextStyles.bodyMedium.copyWith(
+                          color: AppColors.onLightBackgroundColor,
+                        )),
+                      ],
+                    ),
                   ),
                 ],
               ),

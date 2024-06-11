@@ -45,6 +45,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           Users newUser = Users(
             email: emailController.text,
             username: usernameController.text,
+            photoUrl: '',
             createdAt: Timestamp.now(),
             updatedAt: Timestamp.now(),
           );
