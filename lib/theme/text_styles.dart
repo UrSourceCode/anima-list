@@ -20,28 +20,28 @@ class AppTextStyles {
 
   static const TextStyle titleLarge = TextStyle(
     fontFamily: 'Inter',
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: FontWeight.normal,
     color: AppColors.onLightBackgroundColor
   );
 
   static const TextStyle titleMedium = TextStyle(
     fontFamily: 'Inter',
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: FontWeight.normal,
     color: AppColors.onLightBackgroundColor
   );
 
   static const TextStyle bodyMedium = TextStyle(
     fontFamily: 'Inter',
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: FontWeight.normal,
     color: AppColors.onLightBackgroundColor
   );
 
   static const TextStyle bodySmall = TextStyle(
     fontFamily: 'Inter',
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: FontWeight.normal,
     color: AppColors.onLightBackgroundColor
   );
