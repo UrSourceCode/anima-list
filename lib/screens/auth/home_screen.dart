@@ -170,8 +170,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16),
                     child: Column(
                       children: docs.map((doc) {
-                        return FutureBuilder<Map<String, dynamic>>(
-                          future: threadService.getThreadAndAuthorData(doc.id),
+                        return StreamBuilder<Map<String, dynamic>>(
+                          stream: threadService.getThreadAndAuthorData(doc.id),
                           builder: (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
                             if (snapshot.hasError) {
                               return Center(child: Text('Error: ${snapshot.error}'));
@@ -185,9 +185,33 @@ class _HomeScreenState extends State<HomeScreen> {
                             final Thread thread = Thread.fromDocument(data['threadData'] as Map<String, dynamic>);
                             final Users author = Users.fromDocument(data['userData'] as Map<String, dynamic>);
 
-                            return DiscussionOverview(
-                              thread: thread,
-                              author: author.username,
+                            return StreamBuilder<QuerySnapshot>(
+                              stream: threadService.getReplyStream(doc.id),
+                              builder: (context, replySnapshot) {
+                                if (replySnapshot.hasError) {
+                                  return Center(child: Text('Error: ${replySnapshot.error}'));
+                                }
+
+                                if (replySnapshot.connectionState == ConnectionState.waiting) {
+                                  return const Center(child: CircularProgressIndicator());
+                                }
+
+                                final int repliesCount = replySnapshot.data?.docs.length ?? 0;
+
+                                return Column(
+                                  children: [
+                                    DiscussionOverview(
+                                      thread: thread,
+                                      author: author.username,
+                                      avatarUrl: author.photoUrl != null ? author.photoUrl! : 'https://ui-avatars.com/api/?name=${author.username}&background=random&size=100&rounded=true',
+                                      repliesCount: repliesCount,
+                                      threadId: doc.id,
+                                      isLoggedIn: user.uid,
+                                    ),
+                                    const Divider(color: AppColors.onLightSurfaceNonActive),
+                                  ],
+                                );
+                              },
                             );
                           },
                         );
