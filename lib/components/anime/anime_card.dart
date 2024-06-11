@@ -75,7 +75,7 @@ class AnimeCard extends StatelessWidget {
                         children: [
                           Text(
                             anime.title,
-                            style: AppTextStyles.titleMedium,
+                            style: AppTextStyles.bodyMedium,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
                           ),
@@ -84,17 +84,19 @@ class AnimeCard extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Text(
                                     '${anime.type} - ${anime.status}',
-                                    style: AppTextStyles.bodyMedium.copyWith(
+                                    style: AppTextStyles.bodySmall.copyWith(
                                         color: AppColors.onLightSurfaceNonActive
                                     ),
                                   ),
                                   const SizedBox(height: 4),
                                   Text(
                                     '${anime.season} - ${anime.year}',
-                                    style: AppTextStyles.bodyMedium.copyWith(
+                                    style: AppTextStyles.bodySmall.copyWith(
                                         color: AppColors.onLightSurfaceNonActive
                                     ),
                                   ),

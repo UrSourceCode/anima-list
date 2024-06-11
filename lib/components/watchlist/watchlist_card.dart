@@ -58,56 +58,63 @@ class WatchlistCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(4),
-                        child: Image.network(
-                          anime.pictureUrl,
-                          fit: BoxFit.cover,
-                          height: 60,
-                          loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-                            if (loadingProgress == null) {
-                              return child;
-                            }
-                            return Center(
-                              child: CircularProgressIndicator(
-                                value: loadingProgress.expectedTotalBytes != null
-                                    ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
-                                    : null,
-                              ),
-                            );
-                          },
+                  Expanded(
+                    child: Row(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(4),
+                          child: Image.network(
+                            anime.pictureUrl,
+                            fit: BoxFit.cover,
+                            height: 60,
+                            loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                              if (loadingProgress == null) {
+                                return child;
+                              }
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  value: loadingProgress.expectedTotalBytes != null
+                                      ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                                      : null,
+                                ),
+                              );
+                            },
+                          ),
                         ),
-                      ),
 
-                      const SizedBox(width: 8),
+                        const SizedBox(width: 8),
 
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                              anime.title,
-                              style: AppTextStyles.titleLarge.copyWith(
-                                color: AppColors.lightPrimaryColor,
-                                fontWeight: FontWeight.bold,
-                              )
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                              'Rating: ${watchlistItem.rating}',
-                              style: AppTextStyles.titleMedium
-                          ),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                  anime.title,
+                                  softWrap: true,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: AppTextStyles.titleMedium.copyWith(
+                                    color: AppColors.lightPrimaryColor,
+                                    fontWeight: FontWeight.bold,
+                                  )
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                  'Rating: ${watchlistItem.rating}',
+                                  style: AppTextStyles.bodyMedium
+                              ),
 
-                          const SizedBox(height: 4),
-                          Text(
-                              'Episodes: ${watchlistItem.watchedEpisodes} / ${anime.episodes}',
-                              style: AppTextStyles.titleMedium
+                              const SizedBox(height: 4),
+                              Text(
+                                  'Episodes: ${watchlistItem.watchedEpisodes} / ${anime.episodes}',
+                                  style: AppTextStyles.bodyMedium
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ],
+                        ),
+                      ],
+                    ),
                   ),
                   IconButton(
                     onPressed: () {

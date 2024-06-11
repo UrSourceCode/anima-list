@@ -59,6 +59,7 @@ class _WatchlistDialogState extends State<WatchlistDialog> {
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
+                textAlign: TextAlign.center,
               ),
             ),
             const SizedBox(height: 10),
