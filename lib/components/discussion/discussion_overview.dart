@@ -1,7 +1,7 @@
-import 'package:anima_list/models/thread_model.dart';
-import 'package:anima_list/screens/thread/thread_detail_screen.dart';
-import 'package:anima_list/theme/colors.dart';
-import 'package:anima_list/theme/text_styles.dart';
+import 'package:AnimaList/models/thread_model.dart';
+import 'package:AnimaList/screens/thread/thread_detail_screen.dart';
+import 'package:AnimaList/theme/colors.dart';
+import 'package:AnimaList/theme/text_styles.dart';
 import 'package:flutter/material.dart';
 
 class DiscussionOverview extends StatelessWidget {

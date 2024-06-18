@@ -1,9 +1,10 @@
-import 'package:anima_list/screens/anime/anime_detail_screen.dart';
-import 'package:anima_list/theme/colors.dart';
-import 'package:anima_list/theme/text_styles.dart';
 import 'package:flutter/material.dart';
 
-import 'package:anima_list/models/anime_model.dart';
+import '../../models/anime_model.dart';
+import '../../screens/anime/anime_detail_screen.dart';
+import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
+
 
 class AnimeCard extends StatelessWidget {
   final Anime anime;

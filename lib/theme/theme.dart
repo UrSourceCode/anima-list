@@ -1,6 +1,6 @@
-import 'package:anima_list/theme/text_styles.dart';
+import 'package:AnimaList/theme/text_styles.dart';
 import 'package:flutter/material.dart';
-import 'package:anima_list/theme/colors.dart';
+import 'package:AnimaList/theme/colors.dart';
 
 class AppTheme {
   static ThemeData get lightTheme {

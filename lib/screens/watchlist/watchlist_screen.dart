@@ -1,12 +1,12 @@
-import 'package:anima_list/components/watchlist/watchlist_card.dart';
-import 'package:anima_list/models/anime_model.dart';
-import 'package:anima_list/models/user_model.dart';
-import 'package:anima_list/models/watchlist_model.dart';
-import 'package:anima_list/services/activity_service.dart';
-import 'package:anima_list/services/user_service.dart';
-import 'package:anima_list/services/watchlist_service.dart';
-import 'package:anima_list/theme/colors.dart';
-import 'package:anima_list/theme/text_styles.dart';
+import 'package:AnimaList/components/watchlist/watchlist_card.dart';
+import 'package:AnimaList/models/anime_model.dart';
+import 'package:AnimaList/models/user_model.dart';
+import 'package:AnimaList/models/watchlist_model.dart';
+import 'package:AnimaList/services/activity_service.dart';
+import 'package:AnimaList/services/user_service.dart';
+import 'package:AnimaList/services/watchlist_service.dart';
+import 'package:AnimaList/theme/colors.dart';
+import 'package:AnimaList/theme/text_styles.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -28,6 +28,10 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
 
   File? _image;
   bool _isLoading = false;
+
+  void signUserOut() {
+    FirebaseAuth.instance.signOut();
+  }
 
   Future<void> _pickAndUploadImage() async {
     final image = await userService.pickImage();
@@ -182,6 +186,13 @@ class _WatchlistScreenState extends State<WatchlistScreen> {
                                     Text(
                                       'Joined ${userDetail.createdAt.toDate().toLocal().toString().split(' ')[0]}',
                                       style: AppTextStyles.bodyMedium,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      children: [
+                                        IconButton(onPressed: signUserOut, icon: const Icon(Icons.logout)),
+                                      ],
                                     ),
                                   ],
                                 ),

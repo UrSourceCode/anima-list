@@ -1,6 +1,6 @@
 // lib/theme/text_styles.dart
 
-import 'package:anima_list/theme/colors.dart';
+import 'package:AnimaList/theme/colors.dart';
 import 'package:flutter/material.dart';
 
 class AppTextStyles {

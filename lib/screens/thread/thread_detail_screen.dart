@@ -2,10 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:anima_list/models/thread_model.dart';
-import 'package:anima_list/theme/colors.dart';
-import 'package:anima_list/theme/text_styles.dart';
-import 'package:anima_list/services/thread_service.dart';
+import 'package:AnimaList/models/thread_model.dart';
+import 'package:AnimaList/theme/colors.dart';
+import 'package:AnimaList/theme/text_styles.dart';
+import 'package:AnimaList/services/thread_service.dart';
 import 'package:intl/intl.dart';
 
 class ThreadDetailScreen extends StatefulWidget {

@@ -1,18 +1,18 @@
 import 'dart:async';
 
-import 'package:anima_list/components/anime/anime_card.dart';
-import 'package:anima_list/components/anime/top_anime.dart';
-import 'package:anima_list/components/discussion/discussion_overview.dart';
-import 'package:anima_list/models/anime_model.dart';
-import 'package:anima_list/models/thread_model.dart';
-import 'package:anima_list/models/user_model.dart';
-import 'package:anima_list/screens/profile_screen.dart';
-import 'package:anima_list/services/anime_service.dart';
-import 'package:anima_list/services/thread_service.dart';
-import 'package:anima_list/services/user_service.dart';
-import 'package:anima_list/services/watchlist_service.dart';
-import 'package:anima_list/theme/colors.dart';
-import 'package:anima_list/theme/text_styles.dart';
+import 'package:AnimaList/components/anime/anime_card.dart';
+import 'package:AnimaList/components/anime/top_anime.dart';
+import 'package:AnimaList/components/discussion/discussion_overview.dart';
+import 'package:AnimaList/models/anime_model.dart';
+import 'package:AnimaList/models/thread_model.dart';
+import 'package:AnimaList/models/user_model.dart';
+import 'package:AnimaList/screens/discover_screen.dart';
+import 'package:AnimaList/services/anime_service.dart';
+import 'package:AnimaList/services/thread_service.dart';
+import 'package:AnimaList/services/user_service.dart';
+import 'package:AnimaList/services/watchlist_service.dart';
+import 'package:AnimaList/theme/colors.dart';
+import 'package:AnimaList/theme/text_styles.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -75,24 +75,6 @@ class _HomeScreenState extends State<HomeScreen> {
       return const Center(child: CircularProgressIndicator());
     }
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text('AnimaList', style: AppTextStyles.displayLarge.copyWith(color: AppColors.lightPrimaryColor)),
-      //   actions: [
-      //     GestureDetector(
-      //       onTap: () {
-      //         Navigator.push(
-      //           context,
-      //           MaterialPageRoute(builder: (context) => const ProfileScreen()),
-      //         );
-      //       },
-      //       child: CircleAvatar(
-      //         backgroundImage: NetworkImage(
-      //           loggedInUser?.photoUrl ?? 'https://ui-avatars.com/api/?name=${loggedInUser?.username ?? 'Unknown'}&background=random&size=100&rounded=true'
-      //         ),
-      //       ),
-      //     ),
-      //   ],
-      // ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
