@@ -1,11 +1,11 @@
-import 'package:anima_list/components/watchlist/watchlist_dialog.dart';
-import 'package:anima_list/enum/list_status_enum.dart';
-import 'package:anima_list/models/anime_model.dart';
-import 'package:anima_list/models/watchlist_model.dart';
-import 'package:anima_list/theme/colors.dart';
-import 'package:anima_list/theme/text_styles.dart';
+import 'package:AnimaList/components/watchlist/watchlist_dialog.dart';
+import 'package:AnimaList/enum/list_status_enum.dart';
+import 'package:AnimaList/models/anime_model.dart';
+import 'package:AnimaList/models/watchlist_model.dart';
+import 'package:AnimaList/theme/colors.dart';
+import 'package:AnimaList/theme/text_styles.dart';
 import 'package:flutter/material.dart';
-import 'package:anima_list/services/watchlist_service.dart';
+import 'package:AnimaList/services/watchlist_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class WatchlistCard extends StatelessWidget {

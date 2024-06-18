@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:anima_list/components/misc/my_button.dart';
-import 'package:anima_list/components/misc/my_textfield.dart';
-import 'package:anima_list/theme/colors.dart';
-import 'package:anima_list/theme/text_styles.dart';
-import 'package:anima_list/services/user_service.dart';
-import 'package:anima_list/models/user_model.dart';
+import 'package:AnimaList/components/misc/my_button.dart';
+import 'package:AnimaList/components/misc/my_textfield.dart';
+import 'package:AnimaList/theme/colors.dart';
+import 'package:AnimaList/theme/text_styles.dart';
+import 'package:AnimaList/services/user_service.dart';
+import 'package:AnimaList/models/user_model.dart';
 
 class RegisterScreen extends StatefulWidget {
   final Function()? onTap;

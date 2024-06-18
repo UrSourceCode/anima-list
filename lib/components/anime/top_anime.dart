@@ -1,9 +1,9 @@
-import 'package:anima_list/screens/anime/anime_detail_screen.dart';
-import 'package:anima_list/theme/colors.dart';
-import 'package:anima_list/theme/text_styles.dart';
+import 'package:AnimaList/screens/anime/anime_detail_screen.dart';
+import 'package:AnimaList/theme/colors.dart';
+import 'package:AnimaList/theme/text_styles.dart';
 import 'package:flutter/material.dart';
 
-import 'package:anima_list/models/anime_model.dart';
+import 'package:AnimaList/models/anime_model.dart';
 
 class TopAnime extends StatelessWidget {
   final Anime anime;

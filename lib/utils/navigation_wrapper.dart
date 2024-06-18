@@ -1,8 +1,8 @@
-import 'package:anima_list/screens/auth/home_screen.dart';
-import 'package:anima_list/screens/watchlist/watchlist_screen.dart';
+import 'package:AnimaList/screens/auth/home_screen.dart';
+import 'package:AnimaList/screens/watchlist/watchlist_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:anima_list/screens/community_screen.dart';
-import 'package:anima_list/screens/profile_screen.dart';
+import 'package:AnimaList/screens/community_screen.dart';
+import 'package:AnimaList/screens/discover_screen.dart';
 
 class HomeScreenWrapper extends StatelessWidget {
   final Function refresh;
@@ -33,7 +33,7 @@ class CommunityScreenWrapper extends StatelessWidget {
         refresh();
         return true;
       },
-      child: const CommunityScreen(),
+      child: CommunityScreen(),
     );
   }
 }

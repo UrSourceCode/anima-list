@@ -65,6 +65,18 @@ class UserService {
     return null;
   }
 
+  Future<bool> areMutualFollowers(String userIdA, String userIdB) async {
+    final firestore = FirebaseFirestore.instance;
+
+    final followingsA = firestore.collection('users').doc(userIdA).collection('followings').doc(userIdB);
+    final followingsB = firestore.collection('users').doc(userIdB).collection('followings').doc(userIdA);
+
+    final followA = await followingsA.get();
+    final followB = await followingsB.get();
+
+    return followA.exists && followB.exists;
+  }
+
   Future<String?> uploadImage(File image) async {
     try {
       final user = _auth.currentUser!;

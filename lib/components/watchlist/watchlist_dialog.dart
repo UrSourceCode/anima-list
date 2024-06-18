@@ -1,6 +1,6 @@
-import 'package:anima_list/enum/list_status_enum.dart';
-import 'package:anima_list/models/anime_model.dart';
-import 'package:anima_list/theme/colors.dart';
+import 'package:AnimaList/enum/list_status_enum.dart';
+import 'package:AnimaList/models/anime_model.dart';
+import 'package:AnimaList/theme/colors.dart';
 import 'package:flutter/material.dart';
 
 class WatchlistDialog extends StatefulWidget {

@@ -1,4 +1,4 @@
-import 'package:anima_list/models/watchlist_model.dart';
+import 'package:AnimaList/models/watchlist_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Users {

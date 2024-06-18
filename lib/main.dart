@@ -1,9 +1,12 @@
-import 'package:anima_list/screens/anime/anime_detail_screen.dart';
-import 'package:anima_list/screens/auth/auth_screen.dart';
-import 'package:anima_list/screens/auth/home_screen.dart';
-import 'package:anima_list/screens/thread/thread_detail_screen.dart';
-import 'package:anima_list/screens/watchlist/watchlist_screen.dart';
-import 'package:anima_list/theme/theme.dart';
+import 'package:AnimaList/screens/anime/anime_detail_screen.dart';
+import 'package:AnimaList/screens/auth/auth_screen.dart';
+import 'package:AnimaList/screens/auth/home_screen.dart';
+import 'package:AnimaList/screens/community_screen.dart';
+import 'package:AnimaList/screens/discover_screen.dart';
+import 'package:AnimaList/screens/splash_screen.dart';
+import 'package:AnimaList/screens/thread/thread_detail_screen.dart';
+import 'package:AnimaList/screens/watchlist/watchlist_screen.dart';
+import 'package:AnimaList/theme/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +28,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: true,
       theme: AppTheme.lightTheme,
-      home: const AuthScreen(),
+      home: AuthScreen(),
     );
   }
 }

@@ -1,4 +1,4 @@
-import 'package:anima_list/theme/colors.dart';
+import 'package:AnimaList/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 

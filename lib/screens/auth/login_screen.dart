@@ -1,9 +1,9 @@
-import 'package:anima_list/theme/colors.dart';
-import 'package:anima_list/theme/text_styles.dart';
+import 'package:AnimaList/theme/colors.dart';
+import 'package:AnimaList/theme/text_styles.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:anima_list/components/misc/my_textfield.dart';
+import 'package:AnimaList/components/misc/my_textfield.dart';
 import 'package:flutter/material.dart';
-import 'package:anima_list/components/misc/my_button.dart';
+import 'package:AnimaList/components/misc/my_button.dart';
 
 class LoginScreen extends StatefulWidget {
   final Function()? onTap;
