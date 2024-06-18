@@ -20,8 +20,9 @@ class AppTheme {
       ).copyWith(background: AppColors.lightBackgroundColor),
 
       appBarTheme: const AppBarTheme(
-        backgroundColor: AppColors.lightPrimaryColor,
-        foregroundColor: AppColors.onLightPrimaryColor,
+        backgroundColor: AppColors.lightSurfaceBackgroundColor,
+        foregroundColor: AppColors.lightPrimaryColor,
+        shadowColor: AppColors.lightDividerBackgroundColor,
       ),
 
       textTheme: const TextTheme(

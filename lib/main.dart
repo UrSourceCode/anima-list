@@ -1,5 +1,8 @@
 import 'package:anima_list/screens/anime/anime_detail_screen.dart';
 import 'package:anima_list/screens/auth/auth_screen.dart';
+import 'package:anima_list/screens/auth/home_screen.dart';
+import 'package:anima_list/screens/thread/thread_detail_screen.dart';
+import 'package:anima_list/screens/watchlist/watchlist_screen.dart';
 import 'package:anima_list/theme/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
