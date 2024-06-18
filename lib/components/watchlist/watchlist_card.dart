@@ -48,7 +48,7 @@ class WatchlistCard extends StatelessWidget {
         );
       },
       child: Card(
-        color: AppColors.lightDividerBackgroundColor,
+        color: AppColors.lightSurfaceBackgroundColor,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(

@@ -55,10 +55,10 @@ class WatchlistScreenWrapper extends StatelessWidget {
   }
 }
 
-class ProfileScreenWrapper extends StatelessWidget {
+class DiscoverScreenWrapper extends StatelessWidget {
   final Function refresh;
 
-  const ProfileScreenWrapper({required this.refresh, Key? key}) : super(key: key);
+  const DiscoverScreenWrapper({required this.refresh, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +67,7 @@ class ProfileScreenWrapper extends StatelessWidget {
         refresh();
         return true;
       },
-      child: const ProfileScreen(),
+      child: const DiscoverScreen(),
     );
   }
 }

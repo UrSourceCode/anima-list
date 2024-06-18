@@ -35,7 +35,7 @@ class AnimeCard extends StatelessWidget {
             height: 280,
             child: Container(
               decoration: BoxDecoration(
-                color: AppColors.lightSurfaceBackgroundColor,
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(4),
               ),
               child: Column(

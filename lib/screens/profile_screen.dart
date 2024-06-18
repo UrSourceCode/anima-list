@@ -6,14 +6,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+class DiscoverScreen extends StatefulWidget {
+  const DiscoverScreen({super.key});
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  State<DiscoverScreen> createState() => _DiscoverScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _DiscoverScreenState extends State<DiscoverScreen> {
   final user = FirebaseAuth.instance.currentUser!;
   final UserService userService = UserService();
   final WatchlistService watchlistService = WatchlistService();

@@ -11,10 +11,12 @@ import 'package:intl/intl.dart';
 class ThreadDetailScreen extends StatefulWidget {
   final String threadId;
   final String isLoggedIn;
+  final int repliesCount;
 
   const ThreadDetailScreen({
     required this.threadId,
     required this.isLoggedIn,
+    required this.repliesCount,
     Key? key,
   }) : super(key: key);
 
@@ -24,6 +26,7 @@ class ThreadDetailScreen extends StatefulWidget {
 
 class _ThreadDetailScreenState extends State<ThreadDetailScreen> {
   final ThreadService threadService = ThreadService();
+  final TextEditingController _replyController = TextEditingController();
 
   bool isLiked = false;
   int likeCounter = 0;
@@ -66,11 +69,94 @@ class _ThreadDetailScreenState extends State<ThreadDetailScreen> {
     }
   }
 
+  Future<void> _postReply() async {
+    final content = _replyController.text.trim();
+    if (content.isNotEmpty) {
+      final auth = FirebaseAuth.instance;
+      final user = auth.currentUser;
+
+      if (user != null) {
+        await threadService.postReply(widget.threadId, user.uid, content);
+        _replyController.clear();
+      }
+    }
+  }
+
+  Future<void> _showEditDialog(Thread thread) async {
+    final TextEditingController _titleController = TextEditingController(text: thread.title);
+    final TextEditingController _contentController = TextEditingController(text: thread.content);
+
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Edit Thread'),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: _titleController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Edit your thread title here...',
+                  ),
+                ),
+                const SizedBox(height: 8),
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxHeight: MediaQuery.of(context).size.height * 0.3,
+                  ),
+                  child: TextField(
+                    controller: _contentController,
+                    maxLines: null,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'Edit your thread content here...',
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                print("Edit cancelled");
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () async {
+                final updatedTitle = _titleController.text.trim();
+                final updatedContent = _contentController.text.trim();
+                print("Save button pressed with title: $updatedTitle and content: $updatedContent");
+                if (updatedTitle.isNotEmpty && updatedContent.isNotEmpty) {
+                  try {
+                    await threadService.updateThread(widget.threadId, updatedTitle, updatedContent);
+                    print("Thread updated successfully");
+                  } catch (e) {
+                    print("Error updating thread: $e");
+                  }
+                  Navigator.of(context).pop();
+                } else {
+                  print("Updated title or content is empty");
+                }
+              },
+              child: const Text('Save'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Discussion')
+          title: const Text('Discussion')
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -105,13 +191,13 @@ class _ThreadDetailScreenState extends State<ThreadDetailScreen> {
                         Expanded(
                           child: Container(
                             decoration: const BoxDecoration(
-                              color: AppColors.lightSurfaceBackgroundColor,
+                              color: AppColors.lightPrimaryColor,
                             ),
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
                                 thread.title,
-                                style: AppTextStyles.titleMedium.copyWith(color: Colors.black87),
+                                style: AppTextStyles.titleMedium.copyWith(color: Colors.white),
                               ),
                             ),
                           ),
@@ -121,7 +207,7 @@ class _ThreadDetailScreenState extends State<ThreadDetailScreen> {
                     const SizedBox(height: 4),
                     Container(
                       decoration: BoxDecoration(
-                        border: Border.all(color: AppColors.lightSurfaceBackgroundColor),
+                        border: Border.all(color: AppColors.lightPrimaryColor),
                       ),
                       padding: const EdgeInsets.all(8),
                       child: Row(
@@ -155,43 +241,19 @@ class _ThreadDetailScreenState extends State<ThreadDetailScreen> {
                                     ),
                                     Text(
                                       DateFormat('yyyy-MM-dd kk:mm').format(thread.updatedAt.toDate().toLocal()),
-                                        style: AppTextStyles.bodyMedium.copyWith(
+                                      style: AppTextStyles.bodyMedium.copyWith(
                                         color: AppColors.onLightSurfaceNonActive,
                                       ),
                                     ),
                                   ],
                                 ),
                                 const SizedBox(height: 8),
-                                Text(
-                                  thread.content,
-                                  style: AppTextStyles.bodyMedium,
-                                  textAlign: TextAlign.justify,
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    if (widget.isLoggedIn == thread.userId)
-                                      Text(
-                                          'Edit',
-                                          style: AppTextStyles.bodyMedium.copyWith(
-                                              color: AppColors.lightPrimaryColor)
-                                      ),
-                                    const SizedBox(width: 12),
-                                    GestureDetector(
-                                      onTap: _toggleLike,
-                                      child: Icon(
-                                        isLiked ? CupertinoIcons.suit_heart_fill : CupertinoIcons.suit_heart,
-                                        color: AppColors.lightPrimaryColor,
-                                        size: 16,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 4),
-                                    Text(
-                                        likeCounter.toString(),
-                                        style: AppTextStyles.bodyMedium.copyWith(
-                                            color: AppColors.lightPrimaryColor)
-                                    ),
-                                  ],
+                                SingleChildScrollView(
+                                  child: Text(
+                                    thread.content,
+                                    style: AppTextStyles.bodyMedium,
+                                    textAlign: TextAlign.justify,
+                                  ),
                                 ),
                               ],
                             ),
@@ -199,6 +261,64 @@ class _ThreadDetailScreenState extends State<ThreadDetailScreen> {
                         ],
                       ),
                     ),
+                    const Divider(color: AppColors.lightPrimaryColor),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        if (widget.isLoggedIn == thread.userId)
+                          GestureDetector(
+                            onTap: () => _showEditDialog(thread),
+                            child: Text(
+                              'Edit',
+                              style: AppTextStyles.titleMedium.copyWith(
+                                color: AppColors.lightPrimaryColor,
+                              ),
+                            ),
+                          ),
+
+                        Row(
+                          children: [
+                            Row(
+                              children: [
+                                GestureDetector(
+                                  onTap: _toggleLike,
+                                  child: Icon(
+                                    isLiked ? CupertinoIcons.suit_heart_fill : CupertinoIcons.suit_heart,
+                                    color: AppColors.lightPrimaryColor,
+                                    size: 16,
+                                  ),
+                                ),
+
+                                const SizedBox(width: 8),
+                                Text(
+                                    likeCounter.toString(),
+                                    style: AppTextStyles.titleMedium.copyWith(
+                                        color: AppColors.lightPrimaryColor)
+                                ),
+                                const SizedBox(width:12),
+                              ],
+                            ),
+
+                            Row(
+                              children: [
+                                widget.repliesCount == 0
+                                    ? Container()
+                                    : const Icon(Icons.comment_rounded, color: AppColors.lightPrimaryColor, size: 16),
+                                const SizedBox(width: 8),
+                                widget.repliesCount == 0
+                                    ? Container()
+                                    : Text(
+                                  '${widget.repliesCount} ${widget.repliesCount > 1 ? 'replies' : 'reply'}',
+                                  style: AppTextStyles.titleMedium.copyWith(color: AppColors.lightPrimaryColor),
+                                ),
+                                const SizedBox(width: 16),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const Divider(color: AppColors.lightPrimaryColor),
                   ],
                 );
               },
@@ -270,52 +390,50 @@ class _ThreadDetailScreenState extends State<ThreadDetailScreen> {
                           final String replyAuthor = userData['username'];
                           final String avatarUrl = userData['photoUrl'] ?? 'https://ui-avatars.com/api/?name=${userData['username']}&background=random&size=100';
 
-                          return Padding(
-                            padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(2),
-                                      child: Image.network(
-                                        avatarUrl,
-                                        width: 40,
-                                        height: 40,
-                                        fit: BoxFit.cover,
-                                      ),
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(2),
+                                    child: Image.network(
+                                      avatarUrl,
+                                      width: 40,
+                                      height: 40,
+                                      fit: BoxFit.cover,
                                     ),
-                                    const SizedBox(width: 8),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            replyAuthor,
-                                            style: AppTextStyles.titleMedium.copyWith(
-                                              color: AppColors.lightPrimaryColor,
-                                              fontWeight: FontWeight.bold,
-                                            ),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          replyAuthor,
+                                          style: AppTextStyles.titleMedium.copyWith(
+                                            color: AppColors.lightPrimaryColor,
+                                            fontWeight: FontWeight.bold,
                                           ),
-                                          const SizedBox(height: 4),
-                                          Text(
-                                            reply.reply,
-                                            style: AppTextStyles.bodyMedium,
-                                          ),
-                                        ],
-                                      ),
+                                        ),
+                                        const SizedBox(height: 4),
+                                        Text(
+                                          reply.reply,
+                                          style: AppTextStyles.bodyMedium,
+                                          textAlign: TextAlign.justify,
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                                const Divider(color: AppColors.lightSurfaceBackgroundColor),
-                                const SizedBox(height: 4),
-                              ],
-                            ),
+                                  ),
+                                ],
+                              ),
+                              const Divider(color: AppColors.lightPrimaryColor),
+                              const SizedBox(height: 4),
+                            ],
                           );
                         },
                       );
@@ -323,7 +441,28 @@ class _ThreadDetailScreenState extends State<ThreadDetailScreen> {
                   );
                 },
               ),
-            )
+            ),
+            const Divider(color: AppColors.lightPrimaryColor),
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _replyController,
+                    decoration: InputDecoration(
+                      hintText: 'Write a reply...',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+                    ),
+                  ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.send, color: AppColors.lightPrimaryColor),
+                  onPressed: _postReply,
+                ),
+              ],
+            ),
           ],
         ),
       ),

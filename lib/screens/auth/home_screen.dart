@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:anima_list/components/anime/anime_card.dart';
+import 'package:anima_list/components/anime/top_anime.dart';
 import 'package:anima_list/components/discussion/discussion_overview.dart';
 import 'package:anima_list/models/anime_model.dart';
 import 'package:anima_list/models/thread_model.dart';
 import 'package:anima_list/models/user_model.dart';
+import 'package:anima_list/screens/profile_screen.dart';
 import 'package:anima_list/services/anime_service.dart';
 import 'package:anima_list/services/thread_service.dart';
 import 'package:anima_list/services/user_service.dart';
@@ -73,45 +75,71 @@ class _HomeScreenState extends State<HomeScreen> {
       return const Center(child: CircularProgressIndicator());
     }
     return Scaffold(
+      // appBar: AppBar(
+      //   title: Text('AnimaList', style: AppTextStyles.displayLarge.copyWith(color: AppColors.lightPrimaryColor)),
+      //   actions: [
+      //     GestureDetector(
+      //       onTap: () {
+      //         Navigator.push(
+      //           context,
+      //           MaterialPageRoute(builder: (context) => const ProfileScreen()),
+      //         );
+      //       },
+      //       child: CircleAvatar(
+      //         backgroundImage: NetworkImage(
+      //           loggedInUser?.photoUrl ?? 'https://ui-avatars.com/api/?name=${loggedInUser?.username ?? 'Unknown'}&background=random&size=100&rounded=true'
+      //         ),
+      //       ),
+      //     ),
+      //   ],
+      // ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 24),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Home Page',
-                      style: AppTextStyles.displayLarge,
-                    ),
-                  ],
+              Container(
+                color: AppColors.lightSurfaceBackgroundColor,
+                width: double.infinity,
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 24),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'AnimaList',
+                        style: AppTextStyles.displayLarge,
+                      ),
+                    ],
+                  ),
                 ),
               ),
 
+              const Divider(color: AppColors.lightBackgroundColor, height: 2),
+
               StreamBuilder<QuerySnapshot>(
-                stream: animeService.getAllAnime(),
+                stream: animeService.getAllOngoingAnime(),
                 builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasError) {
                     return Center(child: Text('Error: ${snapshot.error}'));
                   }
 
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
+                  return Container();
+}
 
                   final List<DocumentSnapshot> docs = snapshot.data!.docs;
                   final List<String> animeIds = docs.map((doc) => doc.id).toList();
+
+                  //print(docs.map((doc) => doc.id));
 
                   return StreamBuilder<Map<String, bool>>(
                     stream: watchlistService.getUserWatchlistStatus(user.uid, animeIds),
                     builder: (BuildContext context, AsyncSnapshot<Map<String, bool>> watchlistSnapshot) {
                       if (watchlistSnapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
+                      return Container();
                       }
 
                       if (watchlistSnapshot.hasError) {
@@ -119,32 +147,58 @@ class _HomeScreenState extends State<HomeScreen> {
                       }
 
                       final watchlistStatus = watchlistSnapshot.data ?? {};
-                      print(watchlistStatus);
 
                       return Container(
-                        color: AppColors.lightDividerBackgroundColor,
-                        height: 280,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16),
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: docs.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              final DocumentSnapshot doc = docs[index];
-                              final Anime anime = Anime.fromDocument(doc.data() as Map<String, dynamic>);
-                              final bool isOnWatchlist = watchlistStatus[doc.id] ?? false;
+                        height: 320,
+                        color: AppColors.lightSurfaceBackgroundColor,
+                        child: IntrinsicHeight(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16),
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Container(
+                                      width: 4,
+                                      height: 20,
+                                      decoration: const BoxDecoration(
+                                        color: AppColors.lightPrimaryColor,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Text(
+                                        'Currently Airing',
+                                        style: AppTextStyles.titleLarge.copyWith(
+                                            color: AppColors.lightPrimaryColor,
+                                        )
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 16),
+                                Expanded(
+                                  child: ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: docs.length,
+                                    itemBuilder: (BuildContext context, int index) {
+                                      final DocumentSnapshot doc = docs[index];
+                                      final Anime anime = Anime.fromDocument(doc.data() as Map<String, dynamic>);
+                                      final bool isOnWatchlist = watchlistStatus[doc.id] ?? false;
 
-                              return Row(
-                                children: [
-                                  AnimeCard(
-                                    anime: anime,
-                                    animeId: doc.id,
-                                    isOnWatchlist: isOnWatchlist,
+                                      return Row(
+                                        children: [
+                                          AnimeCard(
+                                            anime: anime,
+                                            animeId: doc.id,
+                                            isOnWatchlist: isOnWatchlist,
+                                          ),
+                                          const SizedBox(width: 16),
+                                        ],
+                                      );
+                                    },
                                   ),
-                                  const SizedBox(width: 16),
-                                ],
-                              );
-                            },
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       );
@@ -152,7 +206,28 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 },
               ),
-
+              const SizedBox(height: 16),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 4,
+                      height: 20,
+                      decoration: const BoxDecoration(
+                        color: AppColors.lightPrimaryColor,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                        'Latest Discussions',
+                        style: AppTextStyles.titleLarge.copyWith(
+                          color: AppColors.lightPrimaryColor,
+                        )
+                    ),
+                  ],
+                ),
+              ),
               FutureBuilder<QuerySnapshot>(
                 future: threadService.getAllThreads(),
                 builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -178,7 +253,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             }
 
                             if (snapshot.connectionState == ConnectionState.waiting) {
-                              return const Center(child: CircularProgressIndicator());
+                              return Container();
                             }
 
                             final Map<String, dynamic> data = snapshot.data!;
@@ -193,7 +268,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 }
 
                                 if (replySnapshot.connectionState == ConnectionState.waiting) {
-                                  return const Center(child: CircularProgressIndicator());
+                                  return Container();
                                 }
 
                                 final int repliesCount = replySnapshot.data?.docs.length ?? 0;
@@ -208,7 +283,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       threadId: doc.id,
                                       isLoggedIn: user.uid,
                                     ),
-                                    const Divider(color: AppColors.onLightSurfaceNonActive),
+                                    const Divider(color: AppColors.lightSurfaceBackgroundColor),
                                   ],
                                 );
                               },
@@ -216,6 +291,80 @@ class _HomeScreenState extends State<HomeScreen> {
                           },
                         );
                       }).toList(),
+                    ),
+                  );
+                },
+              ),
+              StreamBuilder<QuerySnapshot>(
+                stream: animeService.getPopularAnime(),
+                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  }
+
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Container();
+                  }
+
+                  final List<DocumentSnapshot> docs = snapshot.data!.docs;
+                  final List<String> desiredOrder = ['kHdRXJ2retRiyMmKy3s9', 'acnW4zHU1TeC2ZcwVeY0', 'U67mvv5MS77kRWmk6Z1i'];
+
+                  docs.sort((a, b) => desiredOrder.indexOf(a.id).compareTo(desiredOrder.indexOf(b.id)));
+
+                  final List<Map<String, dynamic>> rankingsAndRatings = [
+                    {'ranking': '#1', 'rating': 9.36},
+                    {'ranking': '#2', 'rating': 9.07},
+                    {'ranking': '#3', 'rating': 9.06},
+                  ];
+
+                  return Container(
+                    color: AppColors.lightSurfaceBackgroundColor,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                width: 4,
+                                height: 20,
+                                decoration: const BoxDecoration(
+                                  color: AppColors.lightPrimaryColor,
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                'Top Anime by MAL Score',
+                                style: AppTextStyles.titleLarge.copyWith(
+                                  color: AppColors.lightPrimaryColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+                          ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: docs.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              final DocumentSnapshot doc = docs[index];
+                              final Anime anime = Anime.fromDocument(doc.data() as Map<String, dynamic>);
+                              final bool isOnWatchlist = false; // Replace this with actual watchlist status logic
+
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: 16.0),
+                                child: TopAnime(
+                                  anime: anime,
+                                  animeId: doc.id,
+                                  isOnWatchlist: isOnWatchlist,
+                                  ranking: rankingsAndRatings[index]['ranking'],
+                                  rating: rankingsAndRatings[index]['rating'],
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },

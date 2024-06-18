@@ -22,7 +22,7 @@ class _StartupScreenState extends State<StartupScreen> {
       screens: _buildScreens(),
       items: _navBarsItems(),
       confineInSafeArea: true,
-      backgroundColor: AppColors.lightPrimaryColor,
+      backgroundColor: AppColors.lightSurfaceBackgroundColor,
       handleAndroidBackButtonPress: true,
       resizeToAvoidBottomInset: true,
       stateManagement: true,
@@ -48,10 +48,10 @@ class _StartupScreenState extends State<StartupScreen> {
 
   List<Widget> _buildScreens() {
     return [
-      WatchlistScreenWrapper(refresh: refreshScreen, key: UniqueKey()),
-      ProfileScreenWrapper(refresh: refreshScreen, key: UniqueKey()),
       HomeScreenWrapper(refresh: refreshScreen, key: UniqueKey()),
       CommunityScreenWrapper(refresh: refreshScreen, key: UniqueKey()),
+      DiscoverScreenWrapper(refresh: refreshScreen, key: UniqueKey()),
+      WatchlistScreenWrapper(refresh: refreshScreen, key: UniqueKey()),
     ];
   }
 
@@ -60,27 +60,28 @@ class _StartupScreenState extends State<StartupScreen> {
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.home),
         title: ("Home"),
-        activeColorPrimary: Colors.white,
-        inactiveColorPrimary: Colors.grey.shade300,
+        activeColorPrimary: AppColors.lightPrimaryColor,
+        inactiveColorPrimary: Colors.grey.shade400,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.forum),
         title: ("Community"),
-        activeColorPrimary: Colors.white,
-        inactiveColorPrimary: Colors.grey.shade300,
+        activeColorPrimary: AppColors.lightPrimaryColor,
+        inactiveColorPrimary: Colors.grey.shade400,
+      ),
+      PersistentBottomNavBarItem(
+        icon: const Icon(Icons.explore),
+        title: ("Discover"),
+        activeColorPrimary: AppColors.lightPrimaryColor,
+        inactiveColorPrimary: Colors.grey.shade400,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.library_books),
         title: ("Watchlist"),
-        activeColorPrimary: Colors.white,
-        inactiveColorPrimary: Colors.grey.shade300,
+        activeColorPrimary: AppColors.lightPrimaryColor,
+        inactiveColorPrimary: Colors.grey.shade400,
       ),
-      PersistentBottomNavBarItem(
-        icon: const Icon(Icons.account_circle),
-        title: ("Profile"),
-        activeColorPrimary: Colors.white,
-        inactiveColorPrimary: Colors.grey.shade300,
-      ),
+
     ];
   }
 

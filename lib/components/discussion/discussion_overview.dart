@@ -32,6 +32,7 @@ class DiscussionOverview extends StatelessWidget {
             builder: (context) => ThreadDetailScreen(
               threadId: threadId,
               isLoggedIn: isLoggedIn,
+              repliesCount: repliesCount,
             ),
           ),
         );
@@ -72,7 +73,7 @@ class DiscussionOverview extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          const Icon(Icons.comment_rounded, size: 16, color: AppColors.lightSurfaceBackgroundColor),
+                          const Icon(Icons.comment_rounded, size: 16, color: AppColors.lightPrimaryColor),
                           const SizedBox(width: 4),
                           Text(
                             repliesCount.toString(),

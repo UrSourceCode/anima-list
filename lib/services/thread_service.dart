@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:anima_list/models/thread_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -80,7 +82,7 @@ class ThreadService {
 
     if (!upvoteDoc.exists) {
       await threadRef.collection('likes').doc(userId).set({
-        'likedAt': FieldValue.serverTimestamp(),
+        'updatedAt': FieldValue.serverTimestamp(),
       });
 
       await threadRef.update({
@@ -100,5 +102,27 @@ class ThreadService {
         'likeCounter': FieldValue.increment(-1),
       });
     }
+  }
+
+  Future<void> postReply(String threadId, String userId, String content) async {
+    final threadRef = threadCollection.doc(threadId);
+    final repliesCollection = threadRef.collection('replies');
+
+    await repliesCollection.add({
+      'userId': userId,
+      'reply': content,
+      'createdAt': FieldValue.serverTimestamp(),
+      'updatedAt': FieldValue.serverTimestamp(),
+    });
+  }
+
+  Future<void> updateThread(String threadId, String title, String content) async {
+    final threadRef = threadCollection.doc(threadId);
+
+    await threadRef.update({
+      'title': title,
+      'content': content,
+      'updatedAt': FieldValue.serverTimestamp(),
+    });
   }
 }
